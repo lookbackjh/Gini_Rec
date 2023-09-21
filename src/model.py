@@ -53,9 +53,9 @@ class KNNRecommender:
         actual=list(self.matrix_test.loc[self.user_id][self.matrix_test.loc[self.user_id]!=0].keys())
         precision=(len(set(self.recommended_products).intersection(set(actual)))/len(self.recommended_products))
         recall=(len(set(self.recommended_products).intersection(set(actual)))/len(actual))
-        f1score=2*(precision*recall)/(precision+recall)
+        #df1score=2*(precision*recall)/(precision+recall)
 
-        return precision, recall, f1score
+        return precision, recall
 
     def recommend(self):
         all_distances, all_indices,all_uids = self.predict(self.matrix_train)
@@ -77,7 +77,7 @@ class KNNRecommender:
         self.recommended_products=avgrecommendation[:self.args.topk].index.values
         self.recommended_score=avgrecommendation[:self.args.topk].values
 
-        precision, recall,f1score=self.getmetric()
+        precision, recall=self.getmetric()
 
 
-        return self.recommended_products,self.recommended_score,precision, recall,f1score
+        return self.recommended_products,self.recommended_score,precision, recall
