@@ -54,9 +54,14 @@ class KNNRecommender:
         actual=list(self.vector[self.vector!=0].keys())
         precision=(len(set(self.recommended_products).intersection(set(actual)))/len(self.recommended_products))
         recall=(len(set(self.recommended_products).intersection(set(actual)))/len(actual))
-        #df1score=2*(precision*recall)/(precision+recall)
+        # if there is recommended product in top 3 of the recommended list, then it is considered as correct recommendation
+        top3=self.recommended_products[:3]
+        if len(set(top3).intersection(set(actual)))>0:
+            accuracy=1
+        else:
+            accuracy=0
 
-        return precision, recall
+        return precision, recall,accuracy
 
     def recommend(self):
         all_distances, all_indices,all_uids = self.predict(self.matrix_train)
@@ -70,15 +75,14 @@ class KNNRecommender:
         gender_distances,gender_indices,gender_uids=self.predict(gender_matrix)
         gender_top_recommendation=gender_matrix.iloc[gender_indices[:]].sum(axis=0)
 
-        avgrecommendation=all_top_recommendation+age_top_recommendation+gender_top_recommendation
-        avgrecommendation=avgrecommendation/3
+        avgrecommendation=all_top_recommendation*self.args.org_weight+age_top_recommendation*self.args.age_weight+gender_top_recommendation*self.args.gender_weight
         avgrecommendation=avgrecommendation.sort_values(ascending=False)
         #print("Top {} recommendation for user_id: {}".format(self.args.topk,self.user_id))
 
         self.recommended_products=avgrecommendation[:self.args.topk].index.values
         self.recommended_score=avgrecommendation[:self.args.topk].values
 
-        precision, recall=self.getmetric()
+        precision, recall,accuracy=self.getmetric()
 
 
-        return self.recommended_products,self.recommended_score,precision, recall
+        return self.recommended_products,self.recommended_score,precision, recall,accuracy
