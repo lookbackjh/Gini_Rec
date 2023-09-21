@@ -9,6 +9,7 @@ class KNNRecommender:
         self.user_id=args.user_id
         self.user_age_dic=user_age_dic
         self.user_gender_dic=user_gender_dic
+        self.vector=self.matrix_test.loc[self.user_id]
         pass
 
     def fit(self,matrix):
@@ -20,10 +21,10 @@ class KNNRecommender:
     def predict(self,matrix):
         # show row wehre row index is equal to user_id
         # return distances, indices
-        vector=self.matrix_test[self.matrix_train.index==self.user_id]
+        
         model=self.fit(matrix)
         k=min(self.args.k,len(matrix))
-        distances, indices = model.kneighbors(vector.values.reshape(1,-1),n_neighbors=k)
+        distances, indices = model.kneighbors(self.vector.values.reshape(1,-1),n_neighbors=k)
         similaruids=self.matrix_test.index[indices[0]]
         return distances,indices[0], similaruids# this return directlry returns user_id not index (this is done because we want to use user_id as index)
     
@@ -50,7 +51,7 @@ class KNNRecommender:
         #check if recommended products are in test set for user_id
         #calculate precision and recall, f1 score
 
-        actual=list(self.matrix_test.loc[self.user_id][self.matrix_test.loc[self.user_id]!=0].keys())
+        actual=list(self.vector[self.vector!=0].keys())
         precision=(len(set(self.recommended_products).intersection(set(actual)))/len(self.recommended_products))
         recall=(len(set(self.recommended_products).intersection(set(actual)))/len(actual))
         #df1score=2*(precision*recall)/(precision+recall)
