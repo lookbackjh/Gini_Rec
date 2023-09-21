@@ -17,6 +17,7 @@ class DataGenerator():
         self.matrix_test=pd.DataFrame(index=self.userids, columns=self.productids)
         self.matrix_test=self.matrix_test.fillna(0)
 
+        #self.gendermap,self.agemap=self.user_feature_dictionary()
         pass
     
 
@@ -32,10 +33,12 @@ class DataGenerator():
         for index, row in test_df.iterrows():
             self.matrix_test.at[row['AUTH_CUSTOMER_ID'], row['PRODUCT_CODE']]+=1
         
+
         return self.matrix_train, self.matrix_test
 
 
     def user_feature_dictionary(self):
+        #user-id : gender, user-id : age dictionary generator with given df
         self.gendermap={}
         self.agemap={}  
         for user in self.userids:
