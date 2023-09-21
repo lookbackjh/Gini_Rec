@@ -78,4 +78,6 @@ class KNNRecommender:
         self.recommended_score=avgrecommendation[:self.args.topk].values
 
         precision, recall,f1score=self.getmetric()
-        return precision, recall,f1score
+
+
+        return self.recommended_products,self.recommended_score,precision, recall,f1score

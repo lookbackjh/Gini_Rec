@@ -26,15 +26,22 @@ def recommender(args,df):
     recalls=[]
     f1scores=[]
 
-    for userid in tqdm.tqdm(list(gendermap.keys())[:500]):
-        args.user_id=userid 
-        rec = KNNRecommender(args,matrix_train,matrix_test,agemap,gendermap)
-        precsion,recall, f1score=rec.recommend() # user_id = 7
+    # for userid in tqdm.tqdm(list(gendermap.keys())[:500]):
+    #     args.user_id=userid 
+    #     rec = KNNRecommender(args,matrix_train,matrix_test,agemap,gendermap)
+    #     precsion,recall, f1score=rec.recommend() # user_id = 7
 
-    print("precision: ",np.mean(np.array(precisions)))
-    print("recall: ",np.mean(np.array(recalls)))
-    print("f1score: ",np.mean(np.array(f1scores)))
-
+    # print("precision: ",np.mean(np.array(precisions)))
+    # print("recall: ",np.mean(np.array(recalls)))
+    # print("f1score: ",np.mean(np.array(f1scores)))
+    args.user_id=7 #predefined user_id
+    rec = KNNRecommender(args,matrix_train,matrix_test,agemap,gendermap)
+    product,score,precsion,recall, f1score=rec.recommend() # user_id = 7
+    print("recommended products: ",product)
+    print("recommended score: ",score)
+    print("precision: ",precsion)
+    print("recall: ",recall)
+    print("f1score: ",f1score)
     pass
 
 
