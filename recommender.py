@@ -43,9 +43,9 @@ def recommender(args,df):
         accuracies.append(accuracy)
         #f1scores.append(f1score)
 
+    print("accuracy: ",np.mean(np.array(accuracies)))
     print("precision: ",np.mean(np.array(precisions)))
     print("recall: ",np.mean(np.array(recalls)))
-    print("accuracy: ",np.mean(np.array(accuracies)))
     #print("f1score: ",np.mean(np.array(f1scores)))
 
 
