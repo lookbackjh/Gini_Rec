@@ -9,7 +9,8 @@ class KNNRecommender:
         self.user_id=args.user_id
         self.user_age_dic=user_age_dic
         self.user_gender_dic=user_gender_dic
-        self.vector=self.matrix_test.loc[self.user_id]
+        self.vector=self.matrix_train.loc[self.user_id]
+        self.vector_test=self.matrix_test.loc[self.user_id]
         pass
 
     def fit(self,matrix):
@@ -24,7 +25,7 @@ class KNNRecommender:
         
         model=self.fit(matrix)
         k=min(self.args.k,len(matrix))
-        distances, indices = model.kneighbors(self.vector.values.reshape(1,-1),n_neighbors=k)
+        distances, indices = model.kneighbors(self.vector_test.values.reshape(1,-1),n_neighbors=k)
         similaruids=self.matrix_test.index[indices[0]]
         return distances,indices[0], similaruids# this return directlry returns user_id not index (this is done because we want to use user_id as index)
     
@@ -61,7 +62,7 @@ class KNNRecommender:
         else:
             recall=(len(set(self.recommended_products).intersection(set(actual)))/len(actual))
         # if there is recommended product in top 3 of the recommended list, then it is considered as correct recommendation
-        top3=self.recommended_products[:3]
+        top3=self.recommended_products[:2]
         if len(set(top3).intersection(set(actual)))>0:
             accuracy=1
         else:

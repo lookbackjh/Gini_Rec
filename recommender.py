@@ -65,7 +65,25 @@ if __name__ == "__main__":
     args = parser()
     df = pd.read_pickle("order_info_frequency_1000.pickle")
     # want every combination of kparam, topkparam, train_ratio
-    recommender(args,df)
+    kparam = [10]
+    topkparam = [5]
+    train_ratio = [0.7]
+
+    # for each combination, run recommender and save results
+    results = {}
+
+    for k in kparam:
+        for topk in topkparam:
+            for ratio in train_ratio:
+                args.k = k
+                args.topk = topk
+                args.train_ratio = ratio
+                precision, recall, accuracy = recommender(args,df)
+                results[(k,topk,ratio)] = (precision,recall,accuracy)
+
+    # save results
+    with open("results.json","w") as f:
+        json.dump(results,f)
 
 
 
