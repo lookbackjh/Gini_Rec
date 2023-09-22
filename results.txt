@@ -1,0 +1,12 @@
+k: 5, topk: 5, train_ratio: 0.7, precision: 0.5032, recall: 0.21940011493203138, accuracy: 0.927
+k: 5, topk: 5, train_ratio: 0.9, precision: 0.44520000000000004, recall: 0.19478334268228592, accuracy: 0.9
+k: 5, topk: 10, train_ratio: 0.7, precision: 0.39879999999999993, recall: 0.27042543111566253, accuracy: 0.927
+k: 5, topk: 10, train_ratio: 0.9, precision: 0.3526, recall: 0.23286103930207158, accuracy: 0.9
+k: 10, topk: 5, train_ratio: 0.7, precision: 0.45940000000000003, recall: 0.20928016100634111, accuracy: 0.922
+k: 10, topk: 5, train_ratio: 0.9, precision: 0.438, recall: 0.1905367675529491, accuracy: 0.878
+k: 10, topk: 10, train_ratio: 0.7, precision: 0.35710000000000003, recall: 0.2535473235900359, accuracy: 0.922
+k: 10, topk: 10, train_ratio: 0.9, precision: 0.3379, recall: 0.2256074690496045, accuracy: 0.878
+k: 15, topk: 5, train_ratio: 0.7, precision: 0.436, recall: 0.20419555286071334, accuracy: 0.916
+k: 15, topk: 5, train_ratio: 0.9, precision: 0.418, recall: 0.18741808236260368, accuracy: 0.869
+k: 15, topk: 10, train_ratio: 0.7, precision: 0.3292, recall: 0.24203361387854078, accuracy: 0.916
+k: 15, topk: 10, train_ratio: 0.9, precision: 0.324, recall: 0.2210435343948896, accuracy: 0.869
