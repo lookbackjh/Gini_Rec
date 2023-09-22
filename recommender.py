@@ -35,11 +35,12 @@ def recommender(args,df):
     recalls=[]
     accuracies=[]
 
-    rec = KNNRecommender(args,matrix_train,matrix_test,agemap,gendermap)
-    product,score,precsion,recall,accuracy=rec.recommend() # user_id = 7
-    precisions.append(precsion)
-    recalls.append(recall)
-    accuracies.append(accuracy)
+    for i in tqdm.tqdm(range(100)):
+        rec = KNNRecommender(args,matrix_train,matrix_test,agemap,gendermap)
+        product,score,precsion,recall,accuracy=rec.recommend() # user_id = 7
+        precisions.append(precsion)
+        recalls.append(recall)
+        accuracies.append(accuracy)
         #f1scores.append(f1score)
 
     print("accuracy: ",np.mean(np.array(accuracies)))
@@ -71,11 +72,10 @@ if __name__ == "__main__":
     # for each combination, run recommender and save results
     #change user_id based on your preference
 
-
     precison,recall,accuracy,product,score=recommender(args,df)
     print("recommended products: ",product)
     print("recommended score: ",score)
-    
+
 
 
     # save results
