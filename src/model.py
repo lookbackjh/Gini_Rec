@@ -52,8 +52,14 @@ class KNNRecommender:
         #calculate precision and recall, f1 score
 
         actual=list(self.vector[self.vector!=0].keys())
+
+
         precision=(len(set(self.recommended_products).intersection(set(actual)))/len(self.recommended_products))
-        recall=(len(set(self.recommended_products).intersection(set(actual)))/len(actual))
+        
+        if len(actual)==0:
+            recall=0
+        else:
+            recall=(len(set(self.recommended_products).intersection(set(actual)))/len(actual))
         # if there is recommended product in top 3 of the recommended list, then it is considered as correct recommendation
         top3=self.recommended_products[:3]
         if len(set(top3).intersection(set(actual)))>0:

@@ -9,15 +9,15 @@ import json
 def parser():
 
     args = argparse.ArgumentParser()
-    args.add_argument('--train_ratio', type=float, default=0.9)
+    args.add_argument('--train_ratio', type=float, default=0.7)
     args.add_argument('--seed', type=int, default=42)
-    args.add_argument('--k', type=int, default=20)
-    args.add_argument('--topk', type=int, default=10)
+    args.add_argument('--k', type=int, default=10)
+    args.add_argument('--topk', type=int, default=5)
     args.add_argument('--cur_year', type=int, default=2023)
     args.add_argument('--user_id', type=int, default=7)
-    args.add_argument('--age_weight', type=float, default=0.4)
-    args.add_argument('--gender_weight', type=float, default=0.4)
-    args.add_argument('--org_weight', type=float, default=0.2)
+    args.add_argument('--age_weight', type=float, default=0.3)
+    args.add_argument('--gender_weight', type=float, default=0.3)
+    args.add_argument('--org_weight', type=float, default=0.3)
                 
     args = args.parse_args()
     return args
@@ -64,22 +64,10 @@ def recommender(args,df):
 if __name__ == "__main__":
     args = parser()
     df = pd.read_pickle("order_info_frequency_1000.pickle")
-    kparam=[10,15,20,25,30]
-    topkparam=[5,7,10]
-    train_ratio=[0.7,0.8,0.9]
     # want every combination of kparam, topkparam, train_ratio
+    recommender(args,df)
 
-    for k in kparam:
-        for topk in topkparam:
-            for train_ratio in train_ratio:
-                args.k=k
-                args.topk=topk
-                args.train_ratio=train_ratio
-                precision,recall,accuracy=recommender(args,df)
-                
-                #print("k: {}, topk: {}, train_ratio: {}, precision: {}, recall: {}, accuracy: {}".format(k,topk,train_ratio,precision,recall,accuracy))
-                with open("result.txt", "a") as f:
-                    f.write("k: {}, topk: {}, train_ratio: {}, precision: {}, recall: {}, accuracy: {}\n".format(k,topk,train_ratio,precision,recall,accuracy))
+
 
 
         
