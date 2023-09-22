@@ -32,31 +32,35 @@ def recommender(args,df):
     if args.user_id not in list(matrix_train.index):
         raise ValueError("user_id not in train set")
 
-    precisions=[]
-    recalls=[]
-    accuracies=[]
+
     model = NearestNeighbors(n_neighbors=1000,algorithm='auto',metric='cosine')
     model.fit(np.array(matrix_train))
     rec = KNNRecommender(args,matrix_train,matrix_test,agemap,gendermap,model)
     
-    for i in list(agemap.keys()):
-
-        
-        product,score,precsion,recall,accuracy=rec.recommend(i) # user_id = 7
-        precisions.append(precsion)
-        recalls.append(recall)
-        accuracies.append(accuracy)
-        #f1scores.append(f1score)
 
 
-    print("accuracy: ",np.mean(np.array(accuracies)))
-    print("precision: ",np.mean(np.array(precisions)))
-    print("recommended products: ",product)
-    print("recommended score: ",score)
+
+# want to save results as json file
+    with open('result.txt', 'w') as f:
+
+        for i in tqdm.tqdm(list(gendermap.keys())):        
+            product,score,precsion,recall,accuracy=rec.recommend(i) # user_id = 7
+
+
+            print("accuracy: ",np.mean(np.array(accuracy)))
+            print("precision: ",np.mean(np.array(precsion)))
+            print("recall: ",np.mean(np.array(recall)))
+            print("recommended products: ",product)
+            print("recommended score: ",score)
+
+            # f.write every results same line
+            f.write("user_id:{} accuracy:{} precision:{} recall:{} recommended products:{} recommended score:{}\n".format(i,np.mean(np.array(accuracy)),np.mean(np.array(precsion)),np.mean(np.array(recall)),product,score))
+
+
     #print("recall: ",np.mean(np.array(recalls)))
     #print("f1score: ",np.mean(np.array(f1scores)))
 
-
+    pass
     # args.user_id=7 #predefined user_id
     # rec = KNNRecommender(args,matrix_train,matrix_test,agemap,gendermap)
     # product,score,precsion,recall, f1score=rec.recommend() # user_id = 7
@@ -65,22 +69,17 @@ def recommender(args,df):
     # print("precision: ",precsion)
     # print("recall: ",recall)
     # print("f1score: ",f1score)
-    return np.mean(np.array(precisions)),np.mean(np.array(recalls)),np.mean(np.array(accuracies)), product,score
+    #return np.mean(np.array(precisions)),np.mean(np.array(recalls)),np.mean(np.array(accuracies)), product,score
 
 
 
 if __name__ == "__main__":
     args = parser()
     df = pd.read_pickle("order_info_frequency_1000.pickle")
-    # want every combination of kparam, topkparam, train_ratio
-    kparam = [5,10,15]
-    topkparam = [5,10]
-    train_ratio = [0.7,0.9]
-
     # for each combination, run recommender and save results
     #change user_id based on your preference
 
-    precison,recall,accuracy,product,score=recommender(args,df)
+    recommender(args,df)
 
 
 
